@@ -29,11 +29,11 @@ export class BiberDashboardFacade implements StufenFacadeInterface {
 
   stufenName: string = "Biber";
 
-  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoBiber$;
+  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoBiber$();
 
-  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenBiber$;
+  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenBiber$();
 
-  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsBiber$;
+  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsBiber$();
 
   stufenDownloads$: Observable<DownloadsCardComponentModel> = this.downloadFacade
     .getDownloadsByTagName(WordpressDownloadTagEnum.Biber)

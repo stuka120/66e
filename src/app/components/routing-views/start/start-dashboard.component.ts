@@ -53,7 +53,7 @@ export class StartDashboardComponent implements OnInit {
     this.heroBannerUrl$ = this.wordpressFacade.getBannerUrlForCategory$(WordpressCategoryEnum.Startseite);
     this.heroBannerModel$ = this.wordpressFacade.getStartseiteBanner$();
     this.posts$ = this.myFacebookFacade.posts$;
-    this.stufenCardModels$ = this.stufenTeaserFacade.stufenTeasersAll$;
+    this.stufenCardModels$ = this.stufenTeaserFacade.stufenTeasersAll$();
     this.upcomingEvents$ = this.calendarFacade.getUpomingEventsForNextMonth();
 
     this.adventCalenderIframeModel = this.buildAdventkalenderModelWithin2020Year();

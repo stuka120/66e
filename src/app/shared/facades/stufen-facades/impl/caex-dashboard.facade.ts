@@ -29,11 +29,11 @@ export class CaexDashboardFacade implements StufenFacadeInterface {
 
   stufenName: string = "CaEx";
 
-  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoCaEx$;
+  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoCaEx$();
 
-  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenCaEx$;
+  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenCaEx$();
 
-  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacace.teamPostsCaEx$;
+  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacace.teamPostsCaEx$();
 
   stufenDownloads$: Observable<DownloadsCardComponentModel> = this.downloadFacade
     .getDownloadsByTagName(WordpressDownloadTagEnum.Caex)

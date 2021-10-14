@@ -29,11 +29,11 @@ export class WiwoeDashboardFacade implements StufenFacadeInterface {
 
   stufenName: string = "WiWö";
 
-  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoWiWoe$;
+  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoWiWoe$();
 
-  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenWiWoe$;
+  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenWiWoe$();
 
-  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsWiWoe$;
+  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsWiWoe$();
 
   stufenDownloads$: Observable<DownloadsCardComponentModel> = this.downloadFacade
     .getDownloadsByTagName(WordpressDownloadTagEnum.Wiwoe)

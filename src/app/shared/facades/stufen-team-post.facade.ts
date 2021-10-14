@@ -10,36 +10,53 @@ import { TeamCardCollectionComponentModel } from "../../components/components/te
 import { TeamCardComponentModel } from "../../components/components/team-card/team-card.component-model";
 import { WordpressPostResponseModel } from "../model/responses/wordpress/wordpress-response.model";
 import { ImageSize } from "./stufen-description-facade.service";
+import { Memoize } from 'typescript-memoize';
 
 @Injectable()
 export class StufenTeamPostFacade {
   constructor(private store$: Store<RootState>, private wordpressService: WordpressService) {}
-  teamPostsBiber$: Observable<TeamCardCollectionComponentModel> = this.getTeamCardCollectionForStufe(
-    WordpressCategoryEnum.Biber,
-    "Das Biber Team"
-  );
 
-  teamPostsWiWoe$: Observable<TeamCardCollectionComponentModel> = this.getTeamCardCollectionForStufe(
-    WordpressCategoryEnum.Wiwoe,
-    "Das WiWö Team"
-  );
+  @Memoize()
+  teamPostsBiber$(): Observable<TeamCardCollectionComponentModel> {
+    return this.fetchTeamCardCollectionForStufe(
+      WordpressCategoryEnum.Biber,
+      "Das Biber Team"
+    );
+  }
 
-  teamPostsGuSp$: Observable<TeamCardCollectionComponentModel> = this.getTeamCardCollectionForStufe(
-    WordpressCategoryEnum.Gusp,
-    "Das GuSp Team"
-  );
+  @Memoize()
+  teamPostsWiWoe$(): Observable<TeamCardCollectionComponentModel> {
+    return this.fetchTeamCardCollectionForStufe(
+      WordpressCategoryEnum.Wiwoe,
+      "Das WiWö Team"
+    );
+  }
 
-  teamPostsCaEx$: Observable<TeamCardCollectionComponentModel> = this.getTeamCardCollectionForStufe(
-    WordpressCategoryEnum.Caex,
-    "Das CaEx Team"
-  );
+  @Memoize()
+  teamPostsGuSp$(): Observable<TeamCardCollectionComponentModel> {
+    return this.fetchTeamCardCollectionForStufe(
+      WordpressCategoryEnum.Gusp,
+      "Das GuSp Team"
+    );
+  }
 
-  teamPostsRaRo$: Observable<TeamCardCollectionComponentModel> = this.getTeamCardCollectionForStufe(
-    WordpressCategoryEnum.Raro,
-    "Das RaRo Team"
-  );
+  @Memoize()
+  teamPostsCaEx$(): Observable<TeamCardCollectionComponentModel> {
+    return this.fetchTeamCardCollectionForStufe(
+      WordpressCategoryEnum.Caex,
+      "Das CaEx Team"
+    );
+  }
 
-  private getTeamCardCollectionForStufe(
+  @Memoize()
+  teamPostsRaRo$(): Observable<TeamCardCollectionComponentModel> {
+    return this.fetchTeamCardCollectionForStufe(
+      WordpressCategoryEnum.Raro,
+      "Das RaRo Team"
+    );
+  }
+
+  private fetchTeamCardCollectionForStufe(
     stufe: WordpressCategoryEnum,
     headerText: string
   ): Observable<TeamCardCollectionComponentModel> {

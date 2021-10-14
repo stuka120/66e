@@ -29,11 +29,11 @@ export class RaroDashboardFacade implements StufenFacadeInterface {
 
   stufenName: string = "RaRo";
 
-  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoRaRo$;
+  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoRaRo$();
 
-  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenRaRo$;
+  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenRaRo$();
 
-  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsRaRo$;
+  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsRaRo$();
 
   stufenDownloads$: Observable<DownloadsCardComponentModel> = this.downloadFacade
     .getDownloadsByTagName(WordpressDownloadTagEnum.Raro)

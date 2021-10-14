@@ -1,18 +1,24 @@
-import { Injectable } from "@angular/core";
-import { GoogleCalenderService } from "../../services/google-calendar/google-calender.service";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { UpcomingEventCollectionComponentModel } from "../../../components/components/upcoming-event-collection/upcoming-event-collection.component-model";
-import { compareDates } from "../../utils/date/compare-dates.util";
-import { GoogleCalenderEventResponseModel } from "../../model/responses/google-calendar/google-calender-event-response.model";
+import { Injectable } from '@angular/core';
+import { GoogleCalenderService } from '../../services/google-calendar/google-calender.service';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { UpcomingEventCollectionComponentModel } from '../../../components/components/upcoming-event-collection/upcoming-event-collection.component-model';
+import { compareDates } from '../../utils/date/compare-dates.util';
+import { GoogleCalenderEventResponseModel } from '../../model/responses/google-calendar/google-calender-event-response.model';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root'
 })
 export class CalendarFacade {
-  constructor(private googleCalendarService: GoogleCalenderService) {}
+  constructor(private googleCalendarService: GoogleCalenderService) {
+  }
 
   public getUpcomingEventsSortedUntil(maxDate: Date): Observable<UpcomingEventCollectionComponentModel[]> {
+    return this.googleCalendarService
+      .getEventsTill(maxDate)
+      .pipe(
+        map((events) => events.map(mapToUpcomingEventModel).sort((a, b) => compareDates(a.dateTime, b.dateTime))));
+
     function mapToUpcomingEventModel(
       googleCalenderEventResponseModel: GoogleCalenderEventResponseModel
     ): UpcomingEventCollectionComponentModel {
@@ -27,10 +33,6 @@ export class CalendarFacade {
         place: googleCalenderEventResponseModel.location
       };
     }
-
-    return this.googleCalendarService
-      .getEventsTill(maxDate)
-      .pipe(map((events) => events.map(mapToUpcomingEventModel).sort((a, b) => compareDates(a.dateTime, b.dateTime))));
   }
 
   public getUpomingEventsForNextMonth(): Observable<UpcomingEventCollectionComponentModel[]> {

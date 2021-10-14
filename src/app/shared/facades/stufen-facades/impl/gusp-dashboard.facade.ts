@@ -29,11 +29,11 @@ export class GuspDashboardFacade implements StufenFacadeInterface {
 
   stufenName: string = "GuSp";
 
-  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoGuSp$;
+  stufenInfo$: Observable<StufenCardModel> = this.stufenInfoFacade.stufenInfoGuSp$();
 
-  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenGuSp$;
+  stufenHeimstunden$: Observable<HeimstundenTimeModel> = this.stufenHeimstundenTimeFacade.heimstundenGuSp$();
 
-  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsGuSp$;
+  stufenTeam$: Observable<TeamCardCollectionComponentModel> = this.stufenTeamPostFacade.teamPostsGuSp$();
 
   stufenDownloads$: Observable<DownloadsCardComponentModel> = this.downloadFacade
     .getDownloadsByTagName(WordpressDownloadTagEnum.Gusp)

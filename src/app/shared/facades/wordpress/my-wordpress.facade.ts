@@ -7,6 +7,7 @@ import { WordpressCategoryEnum } from "../../dictionary/wordpress-category.enum"
 import { WordpressTagEnum } from "../../dictionary/wordpress-tag.enum";
 import { SummerEventService } from "../../services/summer-event/summer-event.service";
 import { EventCardComponentModel } from "../../../components/components/event-card/event-card.component-model";
+import { Memoize } from 'typescript-memoize';
 
 @Injectable({
   providedIn: "root"
@@ -14,6 +15,7 @@ import { EventCardComponentModel } from "../../../components/components/event-ca
 export class MyWordpressFacade {
   constructor(private wordpressService: WordpressService, private eventService: SummerEventService) {}
 
+  @Memoize()
   getStartseiteBanner$(): Observable<HeroBannerComponentModel> {
     return this.getBannerUrlForCategory$(WordpressCategoryEnum.Startseite).pipe(
       map((imageUrl) => ({
@@ -29,6 +31,7 @@ export class MyWordpressFacade {
     );
   }
 
+  @Memoize()
   getBannerUrlForCategory$(categoryId: WordpressCategoryEnum): Observable<string | undefined> {
     return this.wordpressService.getWordpressPostByCategoryAndTag$(categoryId, WordpressTagEnum.BannerImage).pipe(
       catchError(() => of(undefined)),

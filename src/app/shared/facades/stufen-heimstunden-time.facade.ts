@@ -22,34 +22,48 @@ import { StufenHeimstundenTimeState, StufenTimeCollection } from "../../root-sto
 import { WordpressCategoryEnum } from "../dictionary/wordpress-category.enum";
 import { WordpressTagEnum } from "../dictionary/wordpress-tag.enum";
 import { muteFirst } from "../utils/rxjs/mute-first.util";
+import { Memoize } from 'typescript-memoize';
 
 @Injectable()
 export class StufenHeimstundenTimeFacade {
   constructor(private store$: Store<RootState>, private wordpressService: WordpressService) {}
 
-  private requireHeimstundenInfos$ = this.store$.select(selectStufenInfosNeedHeimstundenInfos).pipe(
-    filter((needHeimstundenInfos) => needHeimstundenInfos),
-    tap(() => this.store$.dispatch(loadAllHeimstundenAction())),
-    switchMap(() => this.getStufenTimes$()),
-    tap((heimstundenInfos) =>
-      this.store$.dispatch(
-        loadAllHeimstundenSuccessAction({
-          payload: {
-            heimstundenInfos: heimstundenInfos
-          }
-        })
-      )
-    ),
-    catchError((err) => {
-      this.store$.dispatch(loadAllStufenErrorAction(err));
-      return throwError(err);
-    }),
-    share()
-  );
+  @Memoize()
+  private fetchAllHeimstundenInfos$() {
+    return this.store$.select(selectStufenInfosNeedHeimstundenInfos).pipe(
+      filter((needHeimstundenInfos) => needHeimstundenInfos),
+      tap(() => this.store$.dispatch(loadAllHeimstundenAction())),
+      switchMap(() => this.doFetchAllStufenTimes$()),
+      tap((heimstundenInfos) =>
+        this.store$.dispatch(
+          loadAllHeimstundenSuccessAction({
+            payload: {
+              heimstundenInfos: heimstundenInfos
+            }
+          })
+        )
+      ),
+      catchError((err) => {
+        this.store$.dispatch(loadAllStufenErrorAction(err));
+        return throwError(err);
+      }),
+      share()
+    );
+  }
 
-  private getStufenTimes$(): Observable<StufenTimeCollection> {
-    const getHeimstundenTime = (category: WordpressCategoryEnum): Observable<StufenHeimstundenTimeState> => {
-      return this.wordpressService.getWordpressPostByCategoryAndTag$(category, WordpressTagEnum.Time).pipe(
+  private doFetchAllStufenTimes$(): Observable<StufenTimeCollection> {
+    const self = this;
+
+    return forkJoin({
+      biber: getHeimstundenTime(WordpressCategoryEnum.Biber),
+      wiwoe: getHeimstundenTime(WordpressCategoryEnum.Wiwoe),
+      gusp: getHeimstundenTime(WordpressCategoryEnum.Gusp),
+      caex: getHeimstundenTime(WordpressCategoryEnum.Caex),
+      raro: getHeimstundenTime(WordpressCategoryEnum.Raro)
+    });
+
+    function getHeimstundenTime(category: WordpressCategoryEnum): Observable<StufenHeimstundenTimeState> {
+      return self.wordpressService.getWordpressPostByCategoryAndTag$(category, WordpressTagEnum.Time).pipe(
         map(
           (post) =>
             ({
@@ -58,39 +72,46 @@ export class StufenHeimstundenTimeFacade {
             } as StufenHeimstundenTimeState)
         )
       );
-    };
-
-    return forkJoin({
-      biber: getHeimstundenTime(WordpressCategoryEnum.Biber),
-      wiwoe: getHeimstundenTime(WordpressCategoryEnum.Wiwoe),
-      gusp: getHeimstundenTime(WordpressCategoryEnum.Gusp),
-      caex: getHeimstundenTime(WordpressCategoryEnum.Caex),
-      raro: getHeimstundenTime(WordpressCategoryEnum.Raro)
-    }).pipe(map((heimstundenTimes) => <StufenTimeCollection>heimstundenTimes));
+    }
   }
 
-  heimstundenBiber$ = muteFirst(
-    this.requireHeimstundenInfos$.pipe(startWith(null)),
-    this.store$.select(selectBiberHeimstundenInfos)
-  );
+  @Memoize()
+  heimstundenBiber$() {
+    return muteFirst(
+      this.fetchAllHeimstundenInfos$(),
+      this.store$.select(selectBiberHeimstundenInfos)
+    );
+  }
 
-  heimstundenWiWoe$: Observable<HeimstundenTimeModel> = muteFirst(
-    this.requireHeimstundenInfos$.pipe(startWith(null)),
-    this.store$.select(selectWiWoeHeimstundenInfos)
-  );
+  @Memoize()
+  heimstundenWiWoe$(): Observable<HeimstundenTimeModel> {
+    return muteFirst(
+      this.fetchAllHeimstundenInfos$(),
+      this.store$.select(selectWiWoeHeimstundenInfos)
+    );
+  }
 
-  heimstundenGuSp$: Observable<HeimstundenTimeModel> = muteFirst(
-    this.requireHeimstundenInfos$.pipe(startWith(null)),
-    this.store$.select(selectGuSpHeimstundenInfos)
-  );
+  @Memoize()
+  heimstundenGuSp$(): Observable<HeimstundenTimeModel> {
+    return muteFirst(
+      this.fetchAllHeimstundenInfos$(),
+      this.store$.select(selectGuSpHeimstundenInfos)
+    );
+  }
 
-  heimstundenCaEx$: Observable<HeimstundenTimeModel> = muteFirst(
-    this.requireHeimstundenInfos$.pipe(startWith(null)),
-    this.store$.select(selectCaExHeimstundenInfos)
-  );
+  @Memoize()
+  heimstundenCaEx$(): Observable<HeimstundenTimeModel> {
+    return muteFirst(
+      this.fetchAllHeimstundenInfos$(),
+      this.store$.select(selectCaExHeimstundenInfos)
+    );
+  }
 
-  heimstundenRaRo$: Observable<HeimstundenTimeModel> = muteFirst(
-    this.requireHeimstundenInfos$.pipe(startWith(null)),
-    this.store$.select(selectRaRoHeimstundenInfos)
-  );
+  @Memoize()
+  heimstundenRaRo$(): Observable<HeimstundenTimeModel> {
+    return muteFirst(
+      this.fetchAllHeimstundenInfos$(),
+      this.store$.select(selectRaRoHeimstundenInfos)
+    );
+  }
 }
