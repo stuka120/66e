@@ -16,27 +16,27 @@ export class ConfigFacade {
     return this.configurationService.getConfig$().pipe(
       map((config) => config.dangerBanner),
       filter(isNotNullOrUndefined),
-      map(this.mapToAlertComponentModel)
+      map(mapToAlertComponentModel)
     );
-  }
 
-  mapToAlertComponentModel(infoBannerModel: InfoBannerModel): AlertComponentModel {
-    let alertComponentModel: AlertComponentModel = {
-      isActive: infoBannerModel.active,
-      alertMode: infoBannerModel.mode,
-      presentationMode: infoBannerModel.presentationMode,
-      bodyText: infoBannerModel.bodyText,
-      headlineText: infoBannerModel.headerText
-    };
-
-    if (!!infoBannerModel.expandableSection) {
-      alertComponentModel.expandableSection = {
-        expandableText: infoBannerModel.expandableSection.expandableText,
-        expandButtonText: infoBannerModel.expandableSection.expandButtonText,
-        collapseButtonText: infoBannerModel.expandableSection.collapseButtonText
+    function mapToAlertComponentModel(infoBannerModel: InfoBannerModel): AlertComponentModel {
+      let alertComponentModel: AlertComponentModel = {
+        isActive: infoBannerModel.active,
+        alertMode: infoBannerModel.mode,
+        presentationMode: infoBannerModel.presentationMode,
+        bodyText: infoBannerModel.bodyText,
+        headlineText: infoBannerModel.headerText
       };
-    }
 
-    return alertComponentModel;
+      if (!!infoBannerModel.expandableSection) {
+        alertComponentModel.expandableSection = {
+          expandableText: infoBannerModel.expandableSection.expandableText,
+          expandButtonText: infoBannerModel.expandableSection.expandButtonText,
+          collapseButtonText: infoBannerModel.expandableSection.collapseButtonText
+        };
+      }
+
+      return alertComponentModel;
+    }
   }
 }

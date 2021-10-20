@@ -29,7 +29,7 @@ export class StufenOverviewDashboardComponent implements OnInit {
   constructor(private store$: Store<RootState>, private route: ActivatedRoute, private injector: Injector) {}
 
   ngOnInit() {
-    this.stufenFacade = this.injector.get(this.route.snapshot.data["requiredService"]);
+    this.stufenFacade = this.injector.get(this.route.snapshot.data.requiredService);
 
     this.heroBannerModel$ = this.stufenFacade.stufenBannerModel$;
     this.stufenInfo$ = this.stufenFacade.stufenInfo$;

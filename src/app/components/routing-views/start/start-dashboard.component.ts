@@ -52,9 +52,9 @@ export class StartDashboardComponent implements OnInit {
     this.isLoadingStufenInfos$ = this.store$.select(selectStufenInfosIsLoading);
     this.heroBannerUrl$ = this.wordpressFacade.getBannerUrlForCategory$(WordpressCategoryEnum.Startseite);
     this.heroBannerModel$ = this.wordpressFacade.getStartseiteBanner$();
-    this.posts$ = this.myFacebookFacade.posts$;
+    this.posts$ = this.myFacebookFacade.getPosts$();
     this.stufenCardModels$ = this.stufenTeaserFacade.stufenTeasersAll$();
-    this.upcomingEvents$ = this.calendarFacade.getUpomingEventsForNextMonth();
+    this.upcomingEvents$ = this.calendarFacade.getUpcomingEventsForNextMonth();
 
     this.adventCalenderIframeModel = this.buildAdventkalenderModelWithin2020Year();
   }

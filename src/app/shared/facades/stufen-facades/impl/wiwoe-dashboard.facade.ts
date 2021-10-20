@@ -50,17 +50,12 @@ export class WiwoeDashboardFacade implements StufenFacadeInterface {
   stufenBannerModel$: Observable<HeroBannerComponentModel> = this.myWordpressFacade
     .getBannerUrlForCategory$(WordpressCategoryEnum.Wiwoe)
     .pipe(
+      startWith(undefined),
       map((imageUrl) => ({
         imageUrl: imageUrl,
         buttonText: null,
         morphextPrefix: "Wir sind WiWö",
         morpext: null
-      })),
-      startWith({
-        imageUrl: undefined,
-        buttonText: null,
-        morphextPrefix: "Wir sind WiWö",
-        morpext: null
-      })
+      }))
     );
 }

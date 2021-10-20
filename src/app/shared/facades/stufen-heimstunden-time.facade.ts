@@ -1,5 +1,5 @@
-import { Injectable } from "@angular/core";
-import { forkJoin, Observable, throwError } from "rxjs";
+import { Injectable } from '@angular/core';
+import { forkJoin, Observable } from 'rxjs';
 import {
   selectBiberHeimstundenInfos,
   selectCaExHeimstundenInfos,
@@ -7,21 +7,21 @@ import {
   selectRaRoHeimstundenInfos,
   selectStufenInfosNeedHeimstundenInfos,
   selectWiWoeHeimstundenInfos
-} from "../../root-store/stufen-info-store/selectors";
-import { catchError, filter, map, share, startWith, switchMap, tap } from "rxjs/operators";
+} from '../../root-store/stufen-info-store/selectors';
+import { filter, map, share, switchMap, tap } from 'rxjs/operators';
 import {
   loadAllHeimstundenAction,
   loadAllHeimstundenSuccessAction,
   loadAllStufenErrorAction
-} from "../../root-store/stufen-info-store/actions";
-import { RootState } from "../../root-store/root-state";
-import { Store } from "@ngrx/store";
-import { WordpressService } from "../services/wordpress/wordpress.service";
-import { HeimstundenTimeModel } from "../../components/routing-views/stufen-overview/stufen-overview-dashboard.component";
-import { StufenHeimstundenTimeState, StufenTimeCollection } from "../../root-store/stufen-info-store/state";
-import { WordpressCategoryEnum } from "../dictionary/wordpress-category.enum";
-import { WordpressTagEnum } from "../dictionary/wordpress-tag.enum";
-import { muteFirst } from "../utils/rxjs/mute-first.util";
+} from '../../root-store/stufen-info-store/actions';
+import { RootState } from '../../root-store/root-state';
+import { Store } from '@ngrx/store';
+import { WordpressService } from '../services/wordpress/wordpress.service';
+import { HeimstundenTimeModel } from '../../components/routing-views/stufen-overview/stufen-overview-dashboard.component';
+import { StufenHeimstundenTimeState, StufenTimeCollection } from '../../root-store/stufen-info-store/state';
+import { WordpressCategoryEnum } from '../dictionary/wordpress-category.enum';
+import { WordpressTagEnum } from '../dictionary/wordpress-tag.enum';
+import { muteFirst } from '../utils/rxjs/mute-first.util';
 import { Memoize } from 'typescript-memoize';
 
 @Injectable()
@@ -34,19 +34,18 @@ export class StufenHeimstundenTimeFacade {
       filter((needHeimstundenInfos) => needHeimstundenInfos),
       tap(() => this.store$.dispatch(loadAllHeimstundenAction())),
       switchMap(() => this.doFetchAllStufenTimes$()),
-      tap((heimstundenInfos) =>
-        this.store$.dispatch(
-          loadAllHeimstundenSuccessAction({
-            payload: {
-              heimstundenInfos: heimstundenInfos
-            }
-          })
-        )
+      tap({
+          next: (heimstundenInfos) =>
+            this.store$.dispatch(
+              loadAllHeimstundenSuccessAction({
+                payload: {
+                  heimstundenInfos: heimstundenInfos
+                }
+              })
+            ),
+          error: err => this.store$.dispatch(loadAllStufenErrorAction(err))
+        }
       ),
-      catchError((err) => {
-        this.store$.dispatch(loadAllStufenErrorAction(err));
-        return throwError(err);
-      }),
       share()
     );
   }

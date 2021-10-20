@@ -21,6 +21,6 @@ export class SidebarComponent implements OnInit {
   constructor(private eventsFacade: CalendarFacade) {}
 
   ngOnInit(): void {
-    this.upcomingEvents$ = this.eventsFacade.getUpomingEventsForNextMonth();
+    this.upcomingEvents$ = this.eventsFacade.getUpcomingEventsForNextMonth();
   }
 }

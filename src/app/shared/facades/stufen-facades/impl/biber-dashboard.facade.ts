@@ -50,17 +50,12 @@ export class BiberDashboardFacade implements StufenFacadeInterface {
   stufenBannerModel$: Observable<HeroBannerComponentModel> = this.myWordpressFacade
     .getBannerUrlForCategory$(WordpressCategoryEnum.Biber)
     .pipe(
+      startWith(undefined),
       map((imageUrl) => ({
         imageUrl: imageUrl,
         buttonText: null,
         morphextPrefix: "Wir sind Biber",
         morpext: null
-      })),
-      startWith({
-        imageUrl: undefined,
-        buttonText: null,
-        morphextPrefix: "Wir sind Biber",
-        morpext: null
-      })
+      }))
     );
 }

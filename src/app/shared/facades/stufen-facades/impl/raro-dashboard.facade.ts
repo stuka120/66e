@@ -50,17 +50,12 @@ export class RaroDashboardFacade implements StufenFacadeInterface {
   stufenBannerModel$: Observable<HeroBannerComponentModel> = this.myWordpressFacade
     .getBannerUrlForCategory$(WordpressCategoryEnum.Raro)
     .pipe(
+      startWith(undefined),
       map((imageUrl) => ({
         imageUrl: imageUrl,
         buttonText: null,
         morphextPrefix: "Wir sind RaRo",
         morpext: null
-      })),
-      startWith({
-        imageUrl: undefined,
-        buttonText: null,
-        morphextPrefix: "Wir sind RaRo",
-        morpext: null
-      })
+      }))
     );
 }

@@ -17,7 +17,8 @@ export class CalendarFacade {
     return this.googleCalendarService
       .getEventsTill(maxDate)
       .pipe(
-        map((events) => events.map(mapToUpcomingEventModel).sort((a, b) => compareDates(a.dateTime, b.dateTime))));
+        map((events) => events.map(mapToUpcomingEventModel).sort(sortByEventDate))
+      );
 
     function mapToUpcomingEventModel(
       googleCalenderEventResponseModel: GoogleCalenderEventResponseModel
@@ -33,16 +34,20 @@ export class CalendarFacade {
         place: googleCalenderEventResponseModel.location
       };
     }
+
+    function sortByEventDate(event: UpcomingEventCollectionComponentModel, otherEvent: UpcomingEventCollectionComponentModel) {
+      return compareDates(event.dateTime, otherEvent.dateTime)
+    }
   }
 
-  public getUpomingEventsForNextMonth(): Observable<UpcomingEventCollectionComponentModel[]> {
-    return this.getUpcomingEventsSortedUntil(this.getTodayOneMonthAhead());
-  }
+  public getUpcomingEventsForNextMonth(): Observable<UpcomingEventCollectionComponentModel[]> {
+    return this.getUpcomingEventsSortedUntil(getTodayOneMonthAhead());
 
-  private getTodayOneMonthAhead(): Date {
-    const nextMonth = new Date();
-    nextMonth.setMonth(nextMonth.getMonth() + 1);
+    function getTodayOneMonthAhead(): Date {
+      const nextMonth = new Date();
+      nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-    return nextMonth;
+      return nextMonth;
+    }
   }
 }

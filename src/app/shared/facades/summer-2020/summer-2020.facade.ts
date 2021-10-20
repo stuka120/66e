@@ -1,12 +1,12 @@
-import { Inject, Injectable } from "@angular/core";
-import { Observable } from "rxjs";
-import { EventCardComponentModel } from "../../../components/components/event-card/event-card.component-model";
-import { map } from "rxjs/operators";
-import { SummerEventService } from "../../services/summer-event/summer-event.service";
-// tslint:disable-next-line:max-line-length
-import { EventRegistrationModalPayload } from "../../../components/overlay/event-registration/event-registration-result.model";
-import { WINDOW } from "ngx-window-token";
-import { ConfigurationService } from "../../services/configuration/configuration.service";
+import { Inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { EventCardComponentModel } from '../../../components/components/event-card/event-card.component-model';
+import { map } from 'rxjs/operators';
+import { SummerEventService } from '../../services/summer-event/summer-event.service';
+import { EventRegistrationModalPayload } from '../../../components/overlay/event-registration/event-registration-result.model';
+import { WINDOW } from 'ngx-window-token';
+import { ConfigurationService } from '../../services/configuration/configuration.service';
+import { SummerEventResponseModel } from '../../model/responses/summer-event/summer-event-response.model';
 
 @Injectable()
 export class Summer2020Facade {
@@ -14,42 +14,44 @@ export class Summer2020Facade {
     private summerEventService: SummerEventService,
     private configurationService: ConfigurationService,
     @Inject(WINDOW) private window: Window
-  ) {}
+  ) {
+  }
 
   getEvents$(): Observable<EventCardComponentModel[]> {
-    return this.summerEventService.getEvents$().pipe(map(this.mapToOrderedEventsList()));
+    return this.summerEventService.getEvents$().pipe(map(response => this.mapToOrderedEventsList(response)));
   }
 
   getAllEvents$(): Observable<EventCardComponentModel[]> {
-    return this.summerEventService.getAllEvents$().pipe(map(this.mapToOrderedEventsList()));
+    return this.summerEventService.getAllEvents$().pipe(map(response => this.mapToOrderedEventsList(response)));
   }
 
-  private mapToOrderedEventsList() {
-    return (response) =>
-      response
-        .map(
-          (item) =>
-            <EventCardComponentModel>{
-              id: item.id,
-              name: item.name,
-              summary: item.summary,
-              stufen: item.stufen,
-              description: item.description,
-              imageUrl: item.imageUrl,
-              pdfUrl: item.pdfUrl,
-              eventDate: new Date(item.eventDate),
-              eventStartTime: new Date(item.eventStartTime),
-              eventEndTime: new Date(item.eventEndTime),
-              registrationFrom: item.registrationFrom ? new Date(item.registrationFrom) : undefined,
-              registrationTo: item.registrationTo ? new Date(item.registrationTo) : undefined,
-              price: item.price ?? undefined
-            }
-        )
-        .sort(
-          (a, b) =>
-            a.eventDate.setTime(a.eventStartTime.getTime()).valueOf() -
-            b.eventDate.setTime(b.eventStartTime.getTime()).valueOf()
-        );
+  private mapToOrderedEventsList(response: SummerEventResponseModel[]): EventCardComponentModel[] {
+    return response
+      .map(mapToEventCardComponentModel)
+      .sort(sortByEventStartTime);
+
+    function mapToEventCardComponentModel(responseItem: SummerEventResponseModel): EventCardComponentModel {
+      return {
+        id: responseItem.id,
+        name: responseItem.name,
+        summary: responseItem.summary,
+        stufen: responseItem.stufen,
+        description: responseItem.description,
+        imageUrl: responseItem.imageUrl,
+        pdfUrl: responseItem.pdfUrl,
+        eventDate: new Date(responseItem.eventDate),
+        eventStartTime: new Date(responseItem.eventStartTime),
+        eventEndTime: new Date(responseItem.eventEndTime),
+        registrationFrom: responseItem.registrationFrom ? new Date(responseItem.registrationFrom) : undefined,
+        registrationTo: responseItem.registrationTo ? new Date(responseItem.registrationTo) : undefined,
+        price: responseItem.price ?? undefined
+      };
+    }
+
+    function sortByEventStartTime(event: EventCardComponentModel, otherEvent: EventCardComponentModel) {
+      return event.eventDate.setTime(event.eventStartTime.getTime()).valueOf() -
+        otherEvent.eventDate.setTime(otherEvent.eventStartTime.getTime()).valueOf();
+    }
   }
 
   createEventRegistration$(eventRegistration: EventRegistrationModalPayload) {
@@ -62,6 +64,6 @@ export class Summer2020Facade {
   }
 
   downloadDetailsPdf(eventPdfUrl: string) {
-    this.window.open(eventPdfUrl, "_blank");
+    this.window.open(eventPdfUrl, '_blank');
   }
 }

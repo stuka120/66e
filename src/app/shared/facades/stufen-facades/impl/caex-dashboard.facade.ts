@@ -50,17 +50,12 @@ export class CaexDashboardFacade implements StufenFacadeInterface {
   stufenBannerModel$: Observable<HeroBannerComponentModel> = this.myWordpressFacade
     .getBannerUrlForCategory$(WordpressCategoryEnum.Caex)
     .pipe(
+      startWith(undefined),
       map((imageUrl) => ({
         imageUrl: imageUrl,
         buttonText: null,
         morphextPrefix: "Wir sind CaEx",
         morpext: null
-      })),
-      startWith({
-        imageUrl: undefined,
-        buttonText: null,
-        morphextPrefix: "Wir sind CaEx",
-        morpext: null
-      })
+      }))
     );
 }

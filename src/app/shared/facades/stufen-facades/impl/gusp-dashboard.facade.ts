@@ -50,17 +50,12 @@ export class GuspDashboardFacade implements StufenFacadeInterface {
   stufenBannerModel$: Observable<HeroBannerComponentModel> = this.myWordpressFacade
     .getBannerUrlForCategory$(WordpressCategoryEnum.Gusp)
     .pipe(
+      startWith(undefined),
       map((imageUrl) => ({
         imageUrl: imageUrl,
         buttonText: null,
         morphextPrefix: "Wir sind GuSp",
         morpext: null
-      })),
-      startWith({
-        imageUrl: undefined,
-        buttonText: null,
-        morphextPrefix: "Wir sind GuSp",
-        morpext: null
-      })
+      }))
     );
 }
