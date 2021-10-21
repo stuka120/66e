@@ -14,6 +14,6 @@ export class DownloadsDashboardComponent implements OnInit {
   constructor(private downloadsFacade: DownloadsFacade) {}
 
   ngOnInit() {
-    this.currentDownloads$ = this.downloadsFacade.currentDownloads$;
+    this.currentDownloads$ = this.downloadsFacade.currentDownloads$();
   }
 }

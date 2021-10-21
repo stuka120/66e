@@ -24,10 +24,10 @@ export class ConfigurationService {
     return this.http
       .get<AppConfig>(jsonFile)
       .pipe(
-        tap(
-          (config) => this.store$.dispatch(loadConfigSuccessAction({ payload: { config } })),
-          () => this.store$.dispatch(loadConfigErrorAction())
-        ),
+        tap({
+          next: config => this.store$.dispatch(loadConfigSuccessAction({payload: {config}})),
+          error: () => this.store$.dispatch(loadConfigErrorAction())
+        }),
         catchError(() => of(undefined))
       )
       .toPromise();
@@ -36,6 +36,7 @@ export class ConfigurationService {
   getConfig$(): Observable<AppConfig | null> {
     return this.store$
       .select(selectConfig)
-      .pipe(switchMap((config) => (config == null ? from(this.loadConfigFromServer()) : of(config))));
+      .pipe(
+        switchMap((config) => (config == null ? from(this.loadConfigFromServer()) : of(config))));
   }
 }
