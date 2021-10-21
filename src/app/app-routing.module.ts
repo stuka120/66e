@@ -1,19 +1,16 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule } from "@angular/router";
-import { BiberDashboardFacade } from "./shared/facades/stufen-facades/impl/biber-dashboard.facade";
-import { ImprintDashboardComponent } from "./components/routing-views/imprint/imprint-dashboard.component";
-// tslint:disable-next-line:max-line-length
-import { EventRegistrationDashboardComponent } from "./components/routing-views/event-registration/event-registration-dashboard.component";
-import { StartDashboardComponent } from "./components/routing-views/start/start-dashboard.component";
-// tslint:disable-next-line:max-line-length
-import { StufenOverviewDashboardComponent } from "./components/routing-views/stufen-overview/stufen-overview-dashboard.component";
-import { GuspDashboardFacade } from "./shared/facades/stufen-facades/impl/gusp-dashboard.facade";
-import { RaroDashboardFacade } from "./shared/facades/stufen-facades/impl/raro-dashboard.facade";
-import { CaexDashboardFacade } from "./shared/facades/stufen-facades/impl/caex-dashboard.facade";
-import { ContactViewComponent } from "./components/routing-views/contact/contact-view.component";
-import { DownloadsDashboardComponent } from "./components/routing-views/downloads/downloads-dashboard.component";
-import { WiwoeDashboardFacade } from "./shared/facades/stufen-facades/impl/wiwoe-dashboard.facade";
-import { DatenschutzDashboardComponent } from "./components/routing-views/datenschutz/datenschutz-dashboard.component";
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { BiberDashboardFacade } from './shared/facades/stufen-facades/impl/biber-dashboard.facade';
+import { ImprintDashboardComponent } from './components/routing-views/imprint/imprint-dashboard.component';
+import { StartDashboardComponent } from './components/routing-views/start/start-dashboard.component';
+import { StufenOverviewDashboardComponent } from './components/routing-views/stufen-overview/stufen-overview-dashboard.component';
+import { GuspDashboardFacade } from './shared/facades/stufen-facades/impl/gusp-dashboard.facade';
+import { RaroDashboardFacade } from './shared/facades/stufen-facades/impl/raro-dashboard.facade';
+import { CaexDashboardFacade } from './shared/facades/stufen-facades/impl/caex-dashboard.facade';
+import { ContactViewComponent } from './components/routing-views/contact/contact-view.component';
+import { DownloadsDashboardComponent } from './components/routing-views/downloads/downloads-dashboard.component';
+import { WiwoeDashboardFacade } from './shared/facades/stufen-facades/impl/wiwoe-dashboard.facade';
+import { DatenschutzDashboardComponent } from './components/routing-views/datenschutz/datenschutz-dashboard.component';
 
 const routes: Routes = [
   {
@@ -67,17 +64,6 @@ const routes: Routes = [
   {
     path: "kontakt",
     component: ContactViewComponent
-  },
-  {
-    path: "sommer-2020/all",
-    component: EventRegistrationDashboardComponent,
-    data: {
-      displayAllEvents: true
-    }
-  },
-  {
-    path: "sommer-2020",
-    component: EventRegistrationDashboardComponent
   }
 ];
 
