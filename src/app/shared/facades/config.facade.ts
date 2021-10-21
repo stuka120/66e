@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 import { AlertComponentModel } from "../../components/components/alert/alert.component-model";
 import { filter, map } from "rxjs/operators";
 import { InfoBannerModel } from "../model/config/app.config";
-import { isNotNullOrUndefined } from "../utils/rxjs/predicate/filter-is-not-null-or-empty.util";
+import { isNotNullish } from '../utils/rxjs/predicate/is-not-nullish';
 
 @Injectable({
   providedIn: "root"
@@ -15,7 +15,7 @@ export class ConfigFacade {
   getAlertModel$(): Observable<AlertComponentModel> {
     return this.configurationService.getConfig$().pipe(
       map((config) => config.dangerBanner),
-      filter(isNotNullOrUndefined),
+      filter(isNotNullish),
       map(mapToAlertComponentModel)
     );
 

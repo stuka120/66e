@@ -1,19 +1,17 @@
-import { Component, Injector, OnInit } from "@angular/core";
-import { Store } from "@ngrx/store";
-import { RootState } from "../../../root-store/root-state";
-import { Observable } from "rxjs";
-import { HeroBannerComponentModel } from "../../components/hero-banner/hero-banner.component-model";
-import { TeamCardCollectionComponentModel } from "../../components/team-card-collection/team-card-collection.component-model";
-import { DownloadsCardComponentModel } from "../../components/downloads-card/downloads-card.component-model";
-import { ActivatedRoute } from "@angular/router";
-import { faCog } from "@fortawesome/free-solid-svg-icons";
-import { StufenCardModel } from "../../components/stufen-card/stufen-card.model";
-import { StufenFacadeInterface } from "../../../shared/facades/stufen-facades/stufen-facade.interface";
+import { Component, Injector, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { HeroBannerComponentModel } from '../../components/hero-banner/hero-banner.component-model';
+import { TeamCardCollectionComponentModel } from '../../components/team-card-collection/team-card-collection.component-model';
+import { DownloadsCardComponentModel } from '../../components/downloads-card/downloads-card.component-model';
+import { ActivatedRoute } from '@angular/router';
+import { faCog } from '@fortawesome/free-solid-svg-icons';
+import { StufenCardModel } from '../../components/stufen-card/stufen-card.model';
+import { StufenFacadeInterface } from '../../../shared/facades/stufen-facades/stufen-facade.interface';
 
 @Component({
-  selector: "app-stufen-overview-dashboard",
-  templateUrl: "./stufen-overview-dashboard.component.html",
-  styleUrls: ["./stufen-overview-dashboard.component.css"]
+  selector: 'app-stufen-overview-dashboard',
+  templateUrl: './stufen-overview-dashboard.component.html',
+  styleUrls: ['./stufen-overview-dashboard.component.css']
 })
 export class StufenOverviewDashboardComponent implements OnInit {
   stufenFacade: StufenFacadeInterface;
@@ -26,9 +24,11 @@ export class StufenOverviewDashboardComponent implements OnInit {
 
   faCog = faCog;
 
-  constructor(private store$: Store<RootState>, private route: ActivatedRoute, private injector: Injector) {}
+  constructor(private route: ActivatedRoute, private injector: Injector) {
+  }
 
   ngOnInit() {
+    console.log('onInit');
     this.stufenFacade = this.injector.get(this.route.snapshot.data.requiredService);
 
     this.heroBannerModel$ = this.stufenFacade.stufenBannerModel$;

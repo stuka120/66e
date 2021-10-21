@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { GoogleCalenderService } from '../../services/google-calendar/google-calender.service';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { UpcomingEventCollectionComponentModel } from '../../../components/components/upcoming-event-collection/upcoming-event-collection.component-model';
 import { compareDates } from '../../utils/date/compare-dates.util';
 import { GoogleCalenderEventResponseModel } from '../../model/responses/google-calendar/google-calender-event-response.model';
+import { Memoize } from 'typescript-memoize';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class CalendarFacade {
   constructor(private googleCalendarService: GoogleCalenderService) {
   }
 
-  public getUpcomingEventsSortedUntil(maxDate: Date): Observable<UpcomingEventCollectionComponentModel[]> {
+  public getUpcomingEventsSortedUntil$(maxDate: Date): Observable<UpcomingEventCollectionComponentModel[]> {
     return this.googleCalendarService
       .getEventsTill(maxDate)
       .pipe(
@@ -40,8 +41,9 @@ export class CalendarFacade {
     }
   }
 
+  @Memoize()
   public getUpcomingEventsForNextMonth(): Observable<UpcomingEventCollectionComponentModel[]> {
-    return this.getUpcomingEventsSortedUntil(getTodayOneMonthAhead());
+    return this.getUpcomingEventsSortedUntil$(getTodayOneMonthAhead()).pipe(shareReplay(1));
 
     function getTodayOneMonthAhead(): Date {
       const nextMonth = new Date();

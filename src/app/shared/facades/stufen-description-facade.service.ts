@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { forkJoin, Observable, throwError } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { StufenCardModel } from '../../components/components/stufen-card/stufen-card.model';
 import {
   selectBiberStufenInfos,
@@ -9,18 +9,13 @@ import {
   selectStufenInfosNeedStufenInfos,
   selectWiWoeStufenInfos
 } from '../../root-store/stufen-info-store/selectors';
-import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
-import {
-  loadAllStufenAction,
-  loadAllStufenErrorAction,
-  loadAllStufenSuccessAction
-} from '../../root-store/stufen-info-store/actions';
+import { filter, first, map, mapTo, switchMap, tap } from 'rxjs/operators';
+import { loadAllStufenAction, loadAllStufenErrorAction, loadAllStufenSuccessAction } from '../../root-store/stufen-info-store/actions';
 import { RootState } from '../../root-store/root-state';
 import { Store } from '@ngrx/store';
 import { WordpressService } from '../services/wordpress/wordpress.service';
 import { WordpressCategoryEnum } from '../dictionary/wordpress-category.enum';
 import { WordpressTagEnum } from '../dictionary/wordpress-tag.enum';
-import { muteFirst } from '../utils/rxjs/mute-first.util';
 import { flatMultipleLineBreaks } from '../utils/html-string/flat-multiple-line-breaks.util';
 import { StufenCardCollectionModel } from '../../components/components/stufen-card-collection/stufen-card-collection.model';
 import { Memoize } from 'typescript-memoize';
@@ -31,10 +26,11 @@ export class StufenDescriptionFacade {
   }
 
   @Memoize()
-  private fetchStufenInfos$(): Observable<StufenCardCollectionModel> {
+  private async doFetchStufenInfos$(): Promise<void> {
     return this.store$
       .select(selectStufenInfosNeedStufenInfos)
       .pipe(
+        first(),
         filter((needStufenInfos) => needStufenInfos),
         tap(() => this.store$.dispatch(loadAllStufenAction())),
         switchMap(() => this.fetchAllStufenInfos()),
@@ -49,8 +45,8 @@ export class StufenDescriptionFacade {
             ),
           error: error => this.store$.dispatch(loadAllStufenErrorAction(error))
         }),
-        share()
-      );
+        mapTo(undefined),
+      ).toPromise();
   }
 
   private fetchAllStufenInfos(): Observable<StufenCardCollectionModel> {
@@ -104,44 +100,37 @@ export class StufenDescriptionFacade {
     }
   }
 
-  @Memoize()
   public stufenInfoBiber$() {
-    return muteFirst(
-      this.fetchStufenInfos$(),
-      this.store$.select(selectBiberStufenInfos)
-    );
+    void this.doFetchStufenInfos$();
+
+    return this.store$.select(selectBiberStufenInfos);
   }
 
-  @Memoize()
   public stufenInfoWiWoe$() {
-    return muteFirst(
-      this.fetchStufenInfos$(),
-      this.store$.select(selectWiWoeStufenInfos)
-    );
+    void this.doFetchStufenInfos$()
+
+    return this.store$.select(selectWiWoeStufenInfos);
+
   }
 
-  @Memoize()
   public stufenInfoGuSp$() {
-    return muteFirst(
-      this.fetchStufenInfos$(),
-      this.store$.select(selectGuSpStufenInfos)
-    );
+    void this.doFetchStufenInfos$()
+
+    return this.store$.select(selectGuSpStufenInfos);
+
   }
 
-  @Memoize()
   public stufenInfoCaEx$() {
-    return muteFirst(
-      this.fetchStufenInfos$(),
-      this.store$.select(selectCaExStufenInfos)
-    );
+    void this.doFetchStufenInfos$()
+
+    return this.store$.select(selectCaExStufenInfos);
   }
 
-  @Memoize()
   public stufenInfoRaRo$() {
-    return muteFirst(
-      this.fetchStufenInfos$(),
-      this.store$.select(selectRaRoStufenInfos)
-    );
+    void this.doFetchStufenInfos$()
+
+    return this.store$.select(selectRaRoStufenInfos);
+
   }
 }
 

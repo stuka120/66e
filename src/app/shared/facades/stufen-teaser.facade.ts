@@ -2,18 +2,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { RootState } from '../../root-store/root-state';
 import { WordpressService } from '../services/wordpress/wordpress.service';
-import { forkJoin, Observable, throwError } from 'rxjs';
-import { catchError, filter, map, share, startWith, switchMap, tap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { filter, first, map, mapTo, switchMap, tap } from 'rxjs/operators';
 import { StufenCardModel } from '../../components/components/stufen-card/stufen-card.model';
-import {
-  selectBiberTeaser,
-  selectCaExTeaser,
-  selectGuSpTeaser,
-  selectRaRoTeaser,
-  selectStufenInfosNeedTeaser,
-  selectTeasersAll,
-  selectWiWoeTeaser
-} from '../../root-store/stufen-info-store/selectors';
+import { selectStufenInfosNeedTeaser, selectTeasersAll } from '../../root-store/stufen-info-store/selectors';
 import {
   loadAllStufenTeasersAction,
   loadAllStufenTeasersErrorAction,
@@ -21,38 +13,26 @@ import {
 } from '../../root-store/stufen-info-store/actions';
 import { WordpressCategoryEnum } from '../dictionary/wordpress-category.enum';
 import { WordpressTagEnum } from '../dictionary/wordpress-tag.enum';
-import { muteFirst } from '../utils/rxjs/mute-first.util';
 import { removeHtmlTags } from '../utils/html-string/remove-html-tags.util';
 import { StufenCardCollectionModel } from '../../components/components/stufen-card-collection/stufen-card-collection.model';
-import { Memoize } from 'typescript-memoize';
 
 @Injectable()
 export class StufenTeaserFacade {
   constructor(private store$: Store<RootState>, private wordpressService: WordpressService) {
   }
 
-  @Memoize()
   public stufenTeasersAll$() {
-    return muteFirst(
-      this.fetchAllStufenTeasers$(),
-      this.store$
-        .select(selectTeasersAll)
-        .pipe(
-          map((stufenTeasers) => [
-            stufenTeasers.biber,
-            stufenTeasers.wiwoe,
-            stufenTeasers.gusp,
-            stufenTeasers.caex,
-            stufenTeasers.raro
-          ])
-        )
-    );
+    void this.fetchAllStufenTeasers$()
+
+    return this.store$.select(selectTeasersAll);
+
   }
 
-  private fetchAllStufenTeasers$(): Observable<StufenCardCollectionModel> {
+  private fetchAllStufenTeasers$(): Promise<void> {
     return this.store$
       .select(selectStufenInfosNeedTeaser)
       .pipe(
+        first(),
         filter((needTeasers) => needTeasers),
         tap(() => this.store$.dispatch(loadAllStufenTeasersAction())),
         switchMap(() => this.doFetchAllStufenCards$()),
@@ -67,8 +47,8 @@ export class StufenTeaserFacade {
             ),
           error: error => this.store$.dispatch(loadAllStufenTeasersErrorAction(error))
         }),
-        share()
-      );
+        mapTo(undefined)
+      ).toPromise();
   }
 
   private doFetchAllStufenCards$(): Observable<StufenCardCollectionModel> {

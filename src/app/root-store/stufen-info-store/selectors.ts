@@ -2,7 +2,6 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { State, StufenHeimstundenTimeState } from "./state";
 import { StufenCardModel } from "../../components/components/stufen-card/stufen-card.model";
 
-const getError = (state: State): string => state.error;
 const getIsLoading = (state: State): boolean => state.isLoading;
 
 const getBiberStufenInfos = (state: State): StufenCardModel =>
@@ -81,13 +80,13 @@ export const selectTeasersAll = createSelector(
   selectGuSpTeaser,
   selectCaExTeaser,
   selectRaRoTeaser,
-  (biber, wiwoe, gusp, caex, raro) => ({
+  (biber, wiwoe, gusp, caex, raro) => ([
     biber,
     wiwoe,
     gusp,
     caex,
     raro
-  })
+  ])
 );
 
 export const selectStufenInfosNeedTeaser = createSelector(selectStufenInfosFeatureSelector, getNeedTeaser);
