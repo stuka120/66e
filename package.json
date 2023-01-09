@@ -41,7 +41,7 @@
     "ngx-webstorage-service": "^4.1.0",
     "ngx-window-token": "^3.0.0",
     "popper.js": "^1.16.0",
-    "rrule": "^2.6.2",
+    "rrule": "^2.7.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
