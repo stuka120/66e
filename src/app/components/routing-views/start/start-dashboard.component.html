@@ -1,6 +1,8 @@
 <app-hero-banner (buttonClicked)="heroButtonClicked()" [model]="heroBannerModel$ | async"></app-hero-banner>
 
-<app-stufen-slide-swiper *isLoading="stufenCardModels$ | async as stufenCardModels" [stufenModels]="stufenCardModels">
+<app-stufen-slide-swiper *isLoading="stufenCardModels$ | async as stufenCardModels"
+                         class="mt-2"
+                         [stufenModels]="stufenCardModels">
 </app-stufen-slide-swiper>
 
 <section [attr.id]="'nachrichten'">
