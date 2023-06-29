@@ -43,64 +43,60 @@ export function initializeApp(configurationService: ConfigurationService) {
 }
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    BrowserAnimationsModule,
-    NgbModalModule,
-    AppRoutingModule,
-    HttpClientModule,
-    NgbModule,
-    RootStoreModule,
-    OverlayModule,
-    ComponentsModule,
-    RoutingViewsModule,
-    EntriesModule,
-    SidebarModule.forRoot(),
-    MarkdownModule.forRoot({
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          gfm: true,
-          breaks: true,
-          pedantic: false,
-          smartLists: true,
-          smartypants: false
+    imports: [
+        BrowserModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        NgbModalModule,
+        AppRoutingModule,
+        HttpClientModule,
+        NgbModule,
+        RootStoreModule,
+        OverlayModule,
+        ComponentsModule,
+        RoutingViewsModule,
+        EntriesModule,
+        SidebarModule.forRoot(),
+        MarkdownModule.forRoot({
+            markedOptions: {
+                provide: MarkedOptions,
+                useValue: {
+                    gfm: true,
+                    breaks: true,
+                    pedantic: false,
+                    smartLists: true,
+                    smartypants: false
+                }
+            }
+        })
+    ],
+    declarations: [AppComponent],
+    providers: [
+        MyFacebookService,
+        WordpressService,
+        BreakpointService,
+        ConfigurationService,
+        SummerEventService,
+        StufenDescriptionFacade,
+        StufenTeaserFacade,
+        StufenTeamPostFacade,
+        StufenHeimstundenTimeFacade,
+        BiberDashboardFacade,
+        WiwoeDashboardFacade,
+        GuspDashboardFacade,
+        CaexDashboardFacade,
+        RaroDashboardFacade,
+        Summer2020Facade,
+        MyFacebookFacade,
+        DownloadsFacade,
+        CalendarFacade,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [ConfigurationService],
+            multi: true
         }
-      }
-    })
-  ],
-  declarations: [AppComponent],
-  providers: [
-    MyFacebookService,
-    WordpressService,
-    BreakpointService,
-    ConfigurationService,
-    SummerEventService,
-
-    StufenDescriptionFacade,
-    StufenTeaserFacade,
-    StufenTeamPostFacade,
-    StufenHeimstundenTimeFacade,
-    BiberDashboardFacade,
-    WiwoeDashboardFacade,
-    GuspDashboardFacade,
-    CaexDashboardFacade,
-    RaroDashboardFacade,
-    Summer2020Facade,
-
-    MyFacebookFacade,
-    DownloadsFacade,
-    CalendarFacade,
-
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [ConfigurationService],
-      multi: true
-    }
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [LoadingSpinner]
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
