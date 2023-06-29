@@ -36,7 +36,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.26",
     "morphext": "^2.4.7",
-    "ng-sidebar": "^9.2.0",
+    "ng-sidebar": "^9.4.3",
     "ngx-markdown": "^15.1.2",
     "swiper": "^9.4.1",
     "ngx-take-until-destroy": "^5.4.0",

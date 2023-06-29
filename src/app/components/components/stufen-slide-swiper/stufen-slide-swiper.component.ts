@@ -15,8 +15,19 @@ export class StufenSlideSwiperComponent implements OnInit {
     spaceBetween: 20,
     navigation: true,
     pagination: false,
-    slidesPerView: 4,
+    slidesPerView: 1,
     centeredSlides: false,
+    breakpoints: {
+      768: {
+        slidesPerView: 2
+      },
+      992: {
+        slidesPerView: 3
+      },
+      1200: {
+        slidesPerView: 4
+      }
+    }
   }
 
   @Input() stufenModels: StufenCardModel[];
