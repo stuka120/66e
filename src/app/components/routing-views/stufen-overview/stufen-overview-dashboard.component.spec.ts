@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { StufenOverviewDashboardComponent } from "./stufen-overview-dashboard.component";
 
@@ -6,7 +6,7 @@ describe("StufenOverviewDashboardComponent", () => {
   let component: StufenOverviewDashboardComponent;
   let fixture: ComponentFixture<StufenOverviewDashboardComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StufenOverviewDashboardComponent]
     }).compileComponents();
