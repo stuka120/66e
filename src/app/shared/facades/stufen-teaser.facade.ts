@@ -25,7 +25,6 @@ export class StufenTeaserFacade {
     void this.fetchAllStufenTeasers$()
 
     return this.store$.select(selectTeasersAll);
-
   }
 
   private fetchAllStufenTeasers$(): Promise<void> {

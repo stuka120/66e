@@ -1,8 +1,7 @@
 <app-hero-banner (buttonClicked)="heroButtonClicked()" [model]="heroBannerModel$ | async"></app-hero-banner>
-<div class="text-center">
-  <app-stufen-slide-swiper *isLoading="stufenCardModels$ | async as stufenCardModels" [stufenModels]="stufenCardModels">
-  </app-stufen-slide-swiper>
-</div>
+
+<app-stufen-slide-swiper *isLoading="stufenCardModels$ | async as stufenCardModels" [stufenModels]="stufenCardModels">
+</app-stufen-slide-swiper>
 
 <section [attr.id]="'nachrichten'">
   <div *ngIf="posts$ | async" class="section container my-3">

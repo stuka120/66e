@@ -22,7 +22,6 @@ import { CalendarFacade } from "./shared/facades/google-calendar/calendar-facade
 import { registerLocaleData } from "@angular/common";
 import localeDeAt from "@angular/common/locales/de-AT";
 import { BreakpointService } from "./shared/services/breakpoint/breakpoint.service";
-import { SWIPER_CONFIG, SwiperConfigInterface } from "ngx-swiper-wrapper";
 import { RoutingViewsModule } from "./components/routing-views/routing-views.module";
 import { ComponentsModule } from "./components/components/components.module";
 import { LoadingSpinner } from "./components/components/loading-spinner/loading-spinner.component";
@@ -38,20 +37,6 @@ import { OverlayModule } from "./components/overlay/overlay.module";
 import { Summer2020Facade } from "./shared/facades/summer-2020/summer-2020.facade";
 
 registerLocaleData(localeDeAt, "de-AT");
-const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-  direction: "horizontal",
-  slidesPerView: "auto",
-  keyboard: true,
-  mousewheel: false,
-  navigation: true,
-  speed: 300,
-  autoplay: {
-    stopOnLastSlide: false,
-    disableOnInteraction: false,
-    waitForTransition: true,
-    delay: 3000
-  }
-};
 
 export function initializeApp(configurationService: ConfigurationService) {
   return () => configurationService.loadConfigFromServer();
@@ -108,10 +93,6 @@ export function initializeApp(configurationService: ConfigurationService) {
     DownloadsFacade,
     CalendarFacade,
 
-    {
-      provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG
-    },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,

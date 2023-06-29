@@ -24,14 +24,16 @@
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/morphext/dist/morphext.css",
-              "node_modules/animate.css"
+              "node_modules/animate.css",
+              "node_modules/swiper/swiper-element-bundle.min.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "node_modules/morphext/dist/morphext.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.js",
               "node_modules/marked/lib/marked.js",
-              "node_modules/emoji-toolkit/lib/js/joypixels.min.js"
+              "node_modules/emoji-toolkit/lib/js/joypixels.min.js",
+              "node_modules/swiper/swiper-element-bundle.min.js"
             ]
           },
           "configurations": {

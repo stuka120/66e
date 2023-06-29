@@ -1,9 +1,6 @@
-import { Component, OnInit, Input, ViewChild, Inject } from "@angular/core";
-import { SWIPER_CONFIG, SwiperConfigInterface, SwiperDirective } from "ngx-swiper-wrapper";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
-import { BreakpointService } from "../../../shared/services/breakpoint/breakpoint.service";
+import { Component, OnInit, Input } from "@angular/core";
 import { StufenCardModel } from "../stufen-card/stufen-card.model";
+import { A11y, Mousewheel, Navigation, Pagination, SwiperOptions } from 'swiper';
 
 @Component({
   selector: "app-stufen-slide-swiper",
@@ -11,20 +8,18 @@ import { StufenCardModel } from "../stufen-card/stufen-card.model";
   styleUrls: ["./stufen-slide-swiper.component.css"]
 })
 export class StufenSlideSwiperComponent implements OnInit {
-  @Input() stufenModels: StufenCardModel[];
-
-  @ViewChild(SwiperDirective) directiveRef?: SwiperDirective;
-
-  config$: Observable<SwiperConfigInterface>;
-
-  constructor(
-    @Inject(SWIPER_CONFIG) public config: SwiperConfigInterface,
-    private breakpointService: BreakpointService
-  ) {
-    this.config$ = this.breakpointService
-      .isBreakpointMatched("md-down")
-      .pipe(map((isMatched) => ({ ...config, autoplay: isMatched } as SwiperConfigInterface)));
+  public config: SwiperOptions = {
+    modules: [Navigation, Pagination, A11y, Mousewheel],
+    init: false,
+    autoHeight: true,
+    spaceBetween: 20,
+    navigation: true,
+    pagination: false,
+    slidesPerView: 4,
+    centeredSlides: false,
   }
+
+  @Input() stufenModels: StufenCardModel[];
 
   ngOnInit() {}
 }
