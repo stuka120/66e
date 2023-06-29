@@ -1,7 +1,7 @@
 import { Component, Input } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { EventCardComponentModel } from "../../components/event-card/event-card.component-model";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from "@angular/forms";
 import {
   EventRegistrationModalPayload,
   EventRegistrationResultEnum,
@@ -17,14 +17,14 @@ export class EventRegistrationOverlayComponent {
   @Input()
   eventModel: EventCardComponentModel;
 
-  firstnameControl: FormControl;
-  lastnameControl: FormControl;
-  emailControl: FormControl;
-  formGroup: FormGroup;
+  firstnameControl: UntypedFormControl;
+  lastnameControl: UntypedFormControl;
+  emailControl: UntypedFormControl;
+  formGroup: UntypedFormGroup;
 
   constructor(
     public activeModal: NgbActiveModal,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private validator: EventRegistrationAsyncValidator
   ) {
     this.firstnameControl = this.formBuilder.control(undefined, Validators.required);
@@ -78,7 +78,7 @@ export class EventRegistrationOverlayComponent {
     }
   }
 
-  hasErrorToDisplay(formControl: FormControl): boolean {
+  hasErrorToDisplay(formControl: UntypedFormControl): boolean {
     return formControl.dirty && formControl.errors && Object.values(formControl.errors).some((value) => value === true);
   }
 }
