@@ -36,18 +36,25 @@
     <markdown [data]="post.message"></markdown>
   </div>
   <div class="card-footer" data-toggle="collapse" [attr.href]="'#commandsOfPost' + cardId">
-    <div class="d-flex">
-      <div class="card-link">
+    <div class="d-flex justify-content-between">
+      <div class="d-flex gap-2">
+        <fa-icon [icon]="faLike" class="mr-1"></fa-icon>
+        <div class="card-link mr-auto">
+          {{ post.likes ? post.likes.summary.total_count : 0 }}
+          Like{{ post.likes && post.likes.summary.total_count == 1 ? "" : "s" }}
+        </div>
         <fa-icon [icon]="faCommend" class="mr-1"></fa-icon>
-        {{ post.comments?.data ? post.comments.data.length : 0 }} Kommentar{{
-          post.comments?.data && post.comments.data.length == 1 ? "" : "e"
-        }}
+        <div class="card-link">
+          {{ post.comments?.data ? post.comments.summary.total_count : 0 }} Kommentar{{
+          post.comments?.data && post.comments.summary.total_count == 1 ? "" : "e"
+          }}
+        </div>
+        <fa-icon [icon]="faShare" class="mr-1"></fa-icon>
+        <div class="card-link mr-auto">
+          {{ post.shares ? post.shares.count : 0 }} Share{{ post.shares && post.shares.count == 1 ? "" : "s" }}
+        </div>
       </div>
-      <fa-icon [icon]="faShare" class="mx-2"></fa-icon>
-      <div class="card-link mr-auto">
-        {{ post.shares ? post.shares.count : 0 }} Share{{ post.shares && post.shares.count == 1 ? "" : "s" }}
-      </div>
-      <div *ngIf="post.comments?.data" class="card-link">
+      <div *ngIf="false && post.comments" class="card-link">
         <fa-icon [icon]="faChevronDown"></fa-icon>
       </div>
     </div>

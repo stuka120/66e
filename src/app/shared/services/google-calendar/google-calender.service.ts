@@ -17,7 +17,7 @@ export class GoogleCalenderService {
     return this.httpClient
       .get<GoogleCalenderEventCollectionResponseModel>(
         // tslint:disable-next-line:max-line-length
-        `https://www.66er.net/wp-json/calendar/v1/events?from=${new Date().toISOString()}&to=${maxDate.toISOString()}`
+        `https://www.66er.net/wp-json/66er/v1/events?from=${new Date().toISOString()}&to=${maxDate.toISOString()}`
       )
       .pipe(map((dto) => dto.items));
   }
