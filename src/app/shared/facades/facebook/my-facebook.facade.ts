@@ -26,7 +26,7 @@ export class MyFacebookFacade {
       switchMap(() => this.myFacebookService.getPosts$()),
       tap({
         next: posts => this.store$.dispatch(loadNewsSuccessAction({ payload: { posts: posts } })),
-        error: err => this.store$.dispatch(loadNewsErrorAction(err))
+        error: err => this.store$.dispatch(loadNewsErrorAction({payload: {error: err}}))
       }),
       mapTo(undefined)
     ).toPromise();

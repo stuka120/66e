@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { faChevronDown, faComment, faShare } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faComment, faShare, faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import { WordpressPostResponseModel } from "../../../shared/model/responses/wordpress/wordpress-post-response.model";
 
 @Component({
@@ -13,6 +13,7 @@ export class NewsCardComponent implements OnInit {
 
   faCommend = faComment;
   faShare = faShare;
+  faLike = faThumbsUp;
   faChevronDown = faChevronDown;
 
   constructor() {}

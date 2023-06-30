@@ -27,10 +27,18 @@ export interface WordpressPostResponseModel {
       like_count: number;
       created_time: Date;
     }[];
+    summary: {
+      total_count: number;
+    }
   };
   shares: {
     count: number;
   };
+  likes: {
+    summary: {
+      total_count: number;
+    }
+  }
 }
 
 export interface PostCollectionResponseModel {

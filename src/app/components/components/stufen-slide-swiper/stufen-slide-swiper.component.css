@@ -1,4 +1,6 @@
-@import "~swiper/css/swiper.min.css";
+:host {
+  display: block;
+}
 
 .swiper-container {
   padding: 10px;

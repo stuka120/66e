@@ -1,9 +1,9 @@
-<nav id="navbar" class="navbar navbar-expand-lg navbar-collapse navbar-light bg-light sticky-top flex-grow-0">
+<nav id="navbar" class="navbar navbar-expand-lg sticky-top bg-body-tertiary">
   <!-- adding stickiness -->
   <div class="container">
-    <div class="d-flex flex-grow-1 justify-content-between">
+    <div class="d-flex justify-content-between">
       <span class="d-lg-none d-flex align-items-center"
-        ><!-- hidden spacer to center brand on mobile -->
+      ><!-- hidden spacer to center brand on mobile -->
         <fa-icon
           [styles]="{ stroke: 'purple', color: 'purple' }"
           [icon]="faCalenderCheck"
@@ -20,46 +20,48 @@
       </a>
       <div class="d-flex flex-grow-1 d-lg-none justify-content-center align-items-center">
         <a class="navbar-brand-two mr-2" [routerLink]="['/']">
-          <img src="https://www.66er.net/wp-content/uploads/logo.svg" style="height: 3rem;" [routerLink]="['']" />
+          <img src="https://www.66er.net/wp-content/uploads/logo.svg" style="height: 3rem;" [routerLink]="['']"/>
         </a>
         <b
           *ngIf="isSummer2020Visible$() | async"
           class="text-danger text-center ml-2"
           style="cursor: pointer;"
           [routerLink]="['sommer-2020']"
-          >Sommer 2020</b
+        >Sommer 2020</b
         >
       </div>
       <div class="text-right">
-        <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
       </div>
     </div>
-    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse flex-grow-1 text-right" id="myNavbar">
-      <ul class="navbar-nav ml-auto flex-nowrap">
+    <div id="navbarSupportedContent" class="collapse navbar-collapse flex-grow-0 text-right">
+      <ul class="navbar-nav me-auto flex-nowrap">
         <li *ngIf="isSummer2020Visible$() | async" class="nav-item d-none d-lg-block">
           <b
             class="nav-link m-2 menu-item nav-active text-danger"
             style="cursor: pointer;"
             [routerLink]="['sommer-2020']"
             (click)="isMenuCollapsed = !isMenuCollapsed"
-            >Sommer 2020</b
+          >Sommer 2020</b
           >
         </li>
         <li class="nav-item">
-          <a class="nav-link m-2 menu-item nav-active" [routerLink]="['']" (click)="isMenuCollapsed = !isMenuCollapsed"
-            >News</a
+          <a class="nav-link active" [routerLink]="['']" (click)="isMenuCollapsed = !isMenuCollapsed"
+          >News</a
           >
         </li>
         <li class="nav-item dropdown">
           <a
-            class="nav-link dropdown-toggle m-2"
+            class="nav-link dropdown-toggle"
             [routerLink]="null"
             id="navbarDropdown"
-            data-toggle="dropdown"
+            data-bs-toggle="dropdown"
             aria-haspopup="true"
             aria-expanded="false"
+            role="button"
           >
             Stufen
           </a>
@@ -87,19 +89,19 @@
         <!--          </li>-->
         <li class="nav-item">
           <a
-            class="nav-link m-2 menu-item nav-active"
+            class="nav-link"
             [routerLink]="['kontakt']"
             (click)="isMenuCollapsed = !isMenuCollapsed"
-            >Kontakt</a
+          >Kontakt</a
           >
         </li>
         <li class="nav-item">
           <a
-            class="nav-link m-2 menu-item nav-active"
+            class="nav-link"
             href="https://www.flickr.com/photos/134252608@N05/"
             target="_blank"
             (click)="isMenuCollapsed = true"
-            >Fotos</a
+          >Fotos</a
           >
         </li>
       </ul>

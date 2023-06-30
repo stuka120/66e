@@ -30,6 +30,8 @@ export interface WordpressPostResponseModel {
   };
 }
 
+export interface WordpressPageResponseModel extends WordpressPostResponseModel {}
+
 export interface ImageMediaResponse {
   width: number;
   height: number;

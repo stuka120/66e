@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { NewsCardComponent } from './news-card/news-card.component';
 import { StufenCardComponent } from './stufen-card/stufen-card.component';
 import { NewsCardCollectionComponent } from './news-card-collection/news-card-collection.component';
@@ -17,7 +17,6 @@ import { FooterComponent } from './footer/footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
-import { SwiperModule } from 'ngx-swiper-wrapper';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { RouterModule } from '@angular/router';
 import { IframeComponent } from './iframe/iframe.component';
@@ -36,7 +35,6 @@ import { IframeCardComponent } from './iframe-card/iframe-card.component';
     CommonModule,
     BrowserModule,
     RouterModule,
-    SwiperModule,
     NgbModule,
     FontAwesomeModule,
     PipeModule,
@@ -90,6 +88,7 @@ import { IframeCardComponent } from './iframe-card/iframe-card.component';
     AlertComponent,
     EventCardComponent,
     IframeCardComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ComponentsModule {}

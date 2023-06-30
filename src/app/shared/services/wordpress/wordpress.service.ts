@@ -3,9 +3,10 @@ import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { WordpressMediaResponseModel } from "../../model/responses/wordpress/wordpress-media-response.model";
 import { filter, map } from "rxjs/operators";
-import { WordpressPostResponseModel } from "../../model/responses/wordpress/wordpress-response.model";
+import { WordpressPageResponseModel, WordpressPostResponseModel } from '../../model/responses/wordpress/wordpress-response.model';
 import { WordpressCategoryEnum } from "../../dictionary/wordpress-category.enum";
 import { WordpressTagEnum } from "../../dictionary/wordpress-tag.enum";
+import { WordpressPage } from '../../dictionary/wordpress-page.enum';
 
 @Injectable()
 export class WordpressService {
@@ -33,6 +34,18 @@ export class WordpressService {
       .pipe(
         filter((posts) => !!posts && posts.length > 0),
         map((posts) => posts[0])
+      );
+  }
+
+  public getWordpressPageById(
+    page: WordpressPage
+  ): Observable<WordpressPostResponseModel> {
+    return this.httpClient
+      .get<WordpressPageResponseModel>(
+        `https://www.66er.net/wp-json/wp/v2/pages/${page}?_embed`
+      )
+      .pipe(
+        map((posts) => posts)
       );
   }
 

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
+import { ComponentFixture, TestBed, waitForAsync } from "@angular/core/testing";
 
 import { StufenSlideSwiperComponent } from "./stufen-slide-swiper.component";
 
@@ -6,7 +6,7 @@ describe("StufenSlideSwiperComponent", () => {
   let component: StufenSlideSwiperComponent;
   let fixture: ComponentFixture<StufenSlideSwiperComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [StufenSlideSwiperComponent]
     }).compileComponents();
